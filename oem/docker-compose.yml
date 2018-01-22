@@ -1,0 +1,77 @@
+version: '2'
+services:
+  diagnose_base:
+    restart: unless-stopped
+    build: ./diagnose
+
+  diagnose:
+    restart: unless-stopped
+    extends: diagnose_base
+    ports:
+      - '3000'
+
+  diagnose_crond:
+    restart: unless-stopped
+    extends: diagnose_base
+    command: enterpoint.sh crond
+
+  hims_base:
+    restart: unless-stopped
+    build: ./hims
+
+  hims:
+    restart: unless-stopped
+    extends: hims_base
+    ports:
+      - '4000'
+
+  hims_crond:
+    restart: unless-stopped
+    extends: hims_base
+    command: enterpoint.sh crond
+
+  hiapi_base:
+    restart: unless-stopped
+    build: ./hiapi
+
+  hiapi:
+    restart: unless-stopped
+    extends: hiapi_base
+    ports:
+      - '5000'
+
+  hiapi_crond:
+    restart: unless-stopped
+    extends: hiapi_base
+    command: enterpoint.sh crond
+
+
+  manager_base:
+    restart: unless-stopped
+    build: ./manager
+
+  manager:
+    restart: unless-stopped
+    extends: manager_base
+    ports:
+      - '3000'
+
+  manager_crond:
+    restart: unless-stopped
+    extends: manager_base
+    command: enterpoint.sh crond
+
+  meeting_base:
+    restart: unless-stopped
+    build: ./meeting
+
+  meeting:
+    restart: unless-stopped
+    extends: meeting_base
+    ports:
+      - '5000'
+
+  meeting_crond:
+    restart: unless-stopped
+    extends: meeting_base
+    command: enterpoint.sh crond
