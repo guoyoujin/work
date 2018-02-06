@@ -1,0 +1,4 @@
+#!/bin/bash
+rpc=/home/geth/data0/geth.ipc
+
+geth attach rpc:$rpc
