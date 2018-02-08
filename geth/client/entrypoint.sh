@@ -3,21 +3,23 @@
 # author: zhouwei
 # email: xiaomao361@163.com
 # func: start the geth client
- 
+
 home=/home/geth
 data_path=$home/data0
 networkid=2623
-identity="zhouwei"
-bootnodes="enode://7bebecbb0a0240aae6ba213050e9bd8f07fcbf72047b9fcd32f849c23acd39d49fb8599e7ae774dca7f6ad2a8ed60ff2c1d39040302feda92cbd84ba32eb08c1@47.93.160.139:30303"
+identity="unimed"
+bootnodes="enode://539928e9d25db9e8af4521c320863a9c646beec0241b6e5bb6986b8b2a7ced234921857a69b9af824f0fda603efedbf7fdb77c22e21c7830836e2812cf92aa17@47.93.160.139:30303"
 
-geth --datadir $home/data0 init $home/genesis.json
+if [ $(ls -A $data_path | wc -l) -eq 0 ]; then
+	geth --datadir $home/data0 init $home/genesis.json
+fi
 
 geth --identity $identity \
-     --datadir $data_path \
-     --networkid $networkid  \
-     --rpc \
-     --rpcport "8545" \
-     --rpcapi "personal, db, eth, net, web3, miner" \
-     --rpcaddr  "0.0.0.0" \
-     --port "30303" \
-     --bootnodes $bootnodes 
+	--datadir $data_path \
+	--networkid $networkid \
+	--rpc \
+	--rpcport "8545" \
+	--rpcapi "personal, db, eth, net, web3, miner" \
+	--rpcaddr "0.0.0.0" \
+	--port "30303" \
+	--bootnodes $bootnodes
