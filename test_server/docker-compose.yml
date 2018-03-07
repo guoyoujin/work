@@ -1,0 +1,190 @@
+version: '2'
+
+services:
+
+  diag:
+    image: txdiag_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txdiag:/home
+    ports:
+      - 8002:9292
+    networks:
+      - backend
+
+  crm:
+    image: txcrm_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txcrm:/home
+    ports:
+      - 8004:9292
+    networks:
+      - backend
+
+  works:
+    image: txworks_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txworks:/home
+    ports:
+      - 8003:3000
+    networks:
+      - backend
+
+  patient:
+    image: txpatient_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txpatient:/home
+    ports:
+      - 8005:9292
+    networks:
+      - backend
+
+  baymaxapi:
+    image: baymaxapi_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/baymaxapi:/home
+    ports:
+      - 8006:3000
+    networks:
+      - backend
+
+  hiapi:
+    image: txhiapi_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txhiapi:/home
+    ports:
+      - 8007:5000
+    networks:
+      - backend
+
+  hims:
+    image: txhims_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txhims:/home
+    ports:
+      - 8008:4000
+    networks:
+      - backend
+
+  wechatapi:
+    image: wechatapi_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/wechatapi:/home
+    ports:
+      - 8009:3000
+    networks:
+      - backend
+
+  olcrmapi:
+    image: txolcrmapi_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txolcrmapi:/home
+    ports:
+      - 8010:5000
+    networks:
+      - backend
+
+
+  olcrm:
+    image: txolcrm_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txolcrm:/home
+    ports:
+      - 8011:4000
+    networks:
+      - backend
+
+  manager:
+    image: txmanager_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txmanager:/home
+    ports:
+      - 8013:3000
+    networks:
+      - backend
+
+  diagnose:
+    image: txdiagnose_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txdiagnose:/home
+    ports:
+      - 8014:3000
+    networks:
+      - backend
+
+  pay:
+    image: txpay_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txpay:/home
+    ports:
+      - 8015:3000
+    networks:
+      - backend
+
+  meeting:
+    image: txmeeting_base
+    restart: unless-stopped
+    volumes:
+      - /system/docker/txmeeting:/home
+    ports:
+      - 8016:3000
+    networks:
+      - backend
+
+  redis:
+    image: redis
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis:/home
+    networks:
+      - backend
+    entrypoint: redis-server /home/redis.conf
+
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - 27017:27017
+    networks:
+      - backend
+
+  mysql:
+    image: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: n[h^nM06
+      TZ: Asia/Shanghai
+      character-set-server: utf8mb4
+      collation-server: utf8mb4_unicode_ci
+    volumes:
+      - ./mnt/initdb:/docker-entrypoint-initdb.d  # 用于初始化数据库时执行的 .sh, .sql & .sql.gz
+      - ./mnt/datadir:/var/lib/mysql              # 数据库数据文件路径
+      - ./mnt/mysql:/etc/mysql                    # config file
+      - ./mnt/script:/home                        # 数据库数据文件路径
+    ports:
+      - 3306:3306
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: backend
