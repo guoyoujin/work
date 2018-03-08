@@ -3,6 +3,8 @@ services:
   diagnose_base:
     restart: unless-stopped
     build: ./diagnose
+    ports:
+      - '8001:3000'
 
   diagnose:
     restart: unless-stopped
@@ -18,6 +20,8 @@ services:
   hims_base:
     restart: unless-stopped
     build: ./hims
+    ports:
+      - '8002:4000'
 
   hims:
     restart: unless-stopped
@@ -33,6 +37,8 @@ services:
   hiapi_base:
     restart: unless-stopped
     build: ./hiapi
+    ports:
+      - '8003:5000'
 
   hiapi:
     restart: unless-stopped
@@ -49,6 +55,8 @@ services:
   manager_base:
     restart: unless-stopped
     build: ./manager
+    ports:
+      - '8004:3000'
 
   manager:
     restart: unless-stopped
@@ -64,6 +72,8 @@ services:
   meeting_base:
     restart: unless-stopped
     build: ./meeting
+    ports:
+      - '8005:5000'
 
   meeting:
     restart: unless-stopped
@@ -75,3 +85,4 @@ services:
     restart: unless-stopped
     extends: meeting_base
     command: enterpoint.sh crond
+    

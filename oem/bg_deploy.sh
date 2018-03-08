@@ -3,7 +3,7 @@
 # date: 2018-01-03
 # author: zhouwei
 # email: xiaoamo361@163.com
-# modify: 2018-03-08 format
+# modify: 2018-03-07: change for hot deploy
 
 script_home=/home/tongxin/oem
 project_name=$1
@@ -33,23 +33,34 @@ if [ $(pwd)!=="$script" ]; then
 	cd $script_home
 fi
 
-# docker-compose build and up
+# build the new version images
 docker-compose build ${project_name}_base
 docker-compose build ${project_name}_crond
 docker-compose build ${project_name}
+
 if [ $? -eq 0 ]; then
+	# change the nginx conf file to base ports for servers
+	$script_home/app_scale.sh "base" ${project_name}
+
+	# deploy the new version project
 	docker-compose scale ${project_name}=1
 	docker-compose stop ${project_name}
 	docker-compose rm -f ${project_name}
+	docker-compose up -d ${project_name}
+	docker-compose scale ${project_name}=3
+
+	# test the project start status and if something wrong exit the script
+	project_base_port=$(docker ps -a | grep ${project_name} | grep base | awk '{print $(NF-1)}' | cut -d ':' -f 2 | cut -d '-' -f 1)
+	curl localhost:${project_base_port} && $script_home/app_scale.sh "app" ${project_name} || echo "project curl error" && exit 1
+
+	# run the new version base and crond
 	docker-compose stop ${project_name}_crond
 	docker-compose rm -f ${project_name}_crond
 	docker-compose stop ${project_name}_base
 	docker-compose rm -f ${project_name}_base
 	docker-compose up -d ${project_name}_base
 	docker-compose up -d ${project_name}_crond
-	docker-compose up -d ${project_name}
-	docker-compose scale ${project_name}=3
-	$script_home/app_scale.sh ${project_name}
+
 else
 	echo "docker-compose build base error"
 fi
