@@ -1,0 +1,27 @@
+version: '2'
+services:
+  base:
+    restart: unless-stopped
+    build: ./hims
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '8002:4000'
+    networks:
+      - backend
+
+  app:
+    restart: unless-stopped
+    extends: hims_base
+    ports:
+      - '4000'
+
+  crond:
+    restart: unless-stopped
+    extends: hims_base
+    command: enterpoint.sh crond
+
+networks:
+  backend:
+    external:
+      name: backend

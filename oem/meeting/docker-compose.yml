@@ -1,0 +1,27 @@
+version: '2'
+services:
+  base:
+    restart: unless-stopped
+    build: ./meeting
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '8005:3000'
+    networks:
+      - backend
+
+  app:
+    restart: unless-stopped
+    extends: meeting_base
+    ports:
+      - '5000'
+
+  crond:
+    restart: unless-stopped
+    extends: meeting_base
+    command: enterpoint.sh crond
+
+networks:
+  backend:
+    external:
+      name: backend

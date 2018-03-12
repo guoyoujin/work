@@ -3,7 +3,6 @@
 # version:                 1.1
 
 FROM oem_images_base
-MAINTAINER zhouwei<zhouw@tongxinyiliao.com>
 
 WORKDIR /home
 
