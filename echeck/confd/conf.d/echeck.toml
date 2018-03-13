@@ -1,0 +1,9 @@
+[template]
+src = "echeck.tmpl"
+dest = "/system/tengine/conf/docker/echeck.conf"
+mode = "0644"
+keys = [
+  "/echeck"
+]
+check_cmd = "/system/tengine/sbin/nginx -t -c /system/tengine/conf/nginx.conf"
+reload_cmd = "/system/tengine/sbin/nginx -s reload"

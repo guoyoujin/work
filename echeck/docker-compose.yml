@@ -1,0 +1,17 @@
+version: '2'
+services:
+  base:
+    restart: unless-stopped
+    build: .
+
+  app:
+    restart: unless-stopped
+    extends: base
+    ports:
+      - '3000'
+
+
+  crond:
+    restart: unless-stopped
+    extends: base
+    command: enterpoint.sh crond

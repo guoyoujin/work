@@ -51,6 +51,8 @@ if [ $? -eq 0 ]; then
 
 	# test the project start status and if something wrong exit the script
 	project_base_port=$(docker ps -a | grep ${project_name} | grep base | awk '{print $(NF-1)}' | cut -d ':' -f 2 | cut -d '-' -f 1)
+	
+	# 这步操作这里目前有问题，不能通过curl来判断项目是否启动完成 
 	curl localhost:${project_base_port} && $script_home/app_scale.sh "app" ${project_name} || echo "project curl error" && exit 1
 
 	# run the new version base and crond
