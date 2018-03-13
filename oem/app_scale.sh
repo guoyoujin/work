@@ -34,6 +34,6 @@ elif [ ${project_type} == "app" ]; then
 		curl --cacert $cacert --cert $cert --key $key $etcd_url/v2/keys/oem/$etcd_key/$app_key -XPUT -d value="$app_value"
 	done
 else
-	echo "$project_type undefine used app|base"
+	echo "$project_type undefine used app|base project_name"
   exit 1
 fi
