@@ -16,7 +16,8 @@ then
     exit 1
 fi
 
-# 增加docker network 判断和创建
+# check docker network
+docker network ls | grep backend || docker network create backend
 
 # pull code 
 su - tongxin -c "cd $script_home/txpatient&&git pull origin master"

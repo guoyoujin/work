@@ -2,7 +2,13 @@ version: '2'
 services:
   base:
     restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
     build: .
+    ports:
+      - '8000:3000'
+    networks:
+      - backend
 
   app:
     restart: unless-stopped
@@ -10,12 +16,13 @@ services:
     ports:
       - '3000'
 
-
   crond:
     restart: unless-stopped
     extends: base
     command: enterpoint.sh crond
 
-# 添加网卡
-# 添加需要的环境变量
-# 添加base项目映射的端口
+networks:
+  backend:
+    external:
+      name: backend
+
