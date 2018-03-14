@@ -44,5 +44,3 @@ then
 else
     echo "docker-compose build base error"
 fi
-
-

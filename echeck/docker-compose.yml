@@ -2,9 +2,9 @@ version: '2'
 services:
   base:
     restart: unless-stopped
+    build: .
     environment:
       TZ: Asia/Shanghai
-    build: .
     ports:
       - '8000:3000'
     networks:
@@ -13,13 +13,21 @@ services:
   app:
     restart: unless-stopped
     extends: base
+    environment:
+      TZ: Asia/Shanghai
     ports:
       - '3000'
+    networks:
+      - backend
 
   crond:
     restart: unless-stopped
     extends: base
+    environment:
+      TZ: Asia/Shanghai
     command: enterpoint.sh crond
+    networks:
+      - backend
 
 networks:
   backend:
