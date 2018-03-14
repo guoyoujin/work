@@ -16,6 +16,8 @@ then
     exit 1
 fi
 
+# 增加docker network 判断和创建
+
 # pull code 
 su - tongxin -c "cd $script_home/txpatient&&git pull origin master"
 if [ $? -ne 0 ]

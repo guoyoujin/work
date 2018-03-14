@@ -15,3 +15,7 @@ services:
     restart: unless-stopped
     extends: base
     command: enterpoint.sh crond
+
+# 添加网卡
+# 添加需要的环境变量
+# 添加base项目映射的端口
