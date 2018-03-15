@@ -10,64 +10,69 @@ HOME=
 LOG=$HOME/drsp/drsp.log
 CHECK=$HOME/dicom
 TMP=$HOME/tmp
+BIN=$HOME/bin/
 server_path=center@10.8.0.1:11112
 
 source ./shellog.sh
-check_one() {
-	status=$(cd $local_path/$(date +'%Y%m%d') && du | sed -n '$p' | awk '{print $1}')
-	info "check_one_status:" $status
+
+receive_check() {
+	file_size=$(cd $CHECK && du | sed -n '$p' | awk '{print $1}')
+	info "1: file size:" $file_size
 	sleep 5
-	retval=$(cd $local_path/$(date +'%Y%m%d') && du | sed -n '$p' | awk '{print $1}')
-	echo "[info:$(date +'%Y-%m-%d %H:%M:%S')]:retval:" $retval
-	let "result=$retval-$status"
-	echo "[info:$(date +'%Y-%m-%d %H:%M:%S')]:result:" $result
+	compare_size=$(cd $CHECK && du | sed -n '$p' | awk '{print $1}')
+	info "1: compare size:" $compare_size
+	let "result=$compare_size-$file_size"
+	info "1: result:" $result
 	if [ "$result" -lt 1024 ]; then
-		echo "[info:$(date +'%Y-%m-%d %H:%M:%S')]:file status not change keep watching..."
+		info "1: file size not change keep watching..."
 	else
-		echo "[info:$(date +'%Y-%m-%d %H:%M:%S')]:file seding go to check_two "
-		check_two
+		success "1: receiveing dicom images now go to  "
+		size_check
 	fi
 }
 
-check_two() {
-	status1=$(cd $local_path/$(date +'%Y%m%d') && du | sed -n '$p' | awk '{print $1}')
-	echo "[info:$(date +'%Y-%m-%d %H:%M:%S')]:check_two_status1:" $status1
+size_check() {
+	file_size=$(cd $CHECK && du | sed -n '$p' | awk '{print $1}')
+	info "2: file size:" $file_size
 	sleep 30
-	status2=$(cd $local_path/$(date +'%Y%m%d') && du | sed -n '$p' | awk '{print $1}')
-	echo -e "[info:$(date +'%Y-%m-%d %H:%M:%S')]:check_two_status2: $status2\n"
+	compare_size=$(cd $CHECK && du | sed -n '$p' | awk '{print $1}')
+	info "2: compare size:" $compare_size
 	if [ "$status1" == "$status2" ]; then
-		upload_file
-		check_three $status2
+        mv $CHECK/* $TMP
+		scu
+		backup_check $compare_size
 		# take a look during files uploading, if there are others files sending or sended already
 	else
-		check_two
+		size_check
 		# while the files is sending, make sure it will not break from panduan.
 	fi
 }
 
-check_three() {
-	retval=$1
-	status3=$(cd $local_path/$(date +'%Y%m%d') && du | sed -n '$p' | awk '{print $1}')
-	if [ "$status3" == $retval ]; then
-		echo -e "\033[32m [success:] \033[0m" 'upload success, back to check_one'
-		echo "[info:$(date +'%Y-%m-%d %H:%M:%S')] file no change while uploading..."
+backup_check() {
+	compare_size=$1
+	file_size=$(cd $CHECK && du | sed -n '$p' | awk '{print $1}')
+	if [ "$file_size" == $compare_size ]; then
+		success "upload success, back to receive_check"
+		info "file size not change while sending..."
 	else
 		echo $(date +'%Y-%m-%d %H:%M:%S')
-		echo -e "\033[32m [success:] \033[0m upload success"
-		echo -e "\033[33m [warn:] \033[0m file changed while uploading"
-		check_two
+		success "upload success"
+		warn "file changed while sending..."
+		size_check
 	fi
 }
 
-upload_file() {
-	/usr/bin/rsync -avrc $local_path/$(date +'%Y%m%d') $server_path
+scu() {
+    cd $HOME
+	$BIN/storescu -c $server_path $TMP
 }
 
 main() {
 	while true; do
 		echo "----start:$(date +'%Y-%m-%d %H:%M:%S')---"
-		if [ -d "$local_path/$(date +'%Y%m%d')" ]; then
-			check_one
+        size=$(cd $CHECK && du | sed -n '$p' | awk '{print $1}')
+		if [ $size -ne 0 ]; then
+			receive_check
 		else
 			echo "no patient yet keep watching"
 			sleep 30
@@ -76,5 +81,4 @@ main() {
 	done
 }
 
-#main >> $logfile
-main
+main >> $LOG
