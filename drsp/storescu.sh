@@ -10,7 +10,7 @@ HOME=
 LOG=$HOME/drsp/drsp.log
 CHECK=$HOME/dicom
 TMP=$HOME/tmp
-BIN=$HOME/bin/
+BIN=$HOME/dcm4che/bin
 server_path=center@10.8.0.1:11112
 
 source ./shellog.sh
