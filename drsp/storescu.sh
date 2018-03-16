@@ -67,7 +67,7 @@ while true; do
 	echo "----start:$(date +'%Y-%m-%d %H:%M:%S')---"
 	init_size=$(cd $CHECK && du | sed -n '$p' | awk '{print $1}')
 	info "init_size: "$init_size
-	if [ $size -ge 80 ]; then
+	if [ $init_size -ge 80 ]; then
 		# empty directory size is 24 , so use 80 to judge if has receive dicom images
 		info "directory size > 80, receiveing images, go to size check func"
 		size_check
