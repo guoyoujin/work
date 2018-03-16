@@ -6,18 +6,17 @@
 # func: log level echo
 
 info() {
-  echo " Info   $(date +'%Y-%m-%d %H:%M:%S'): $1"
+	echo " Info   $(date +'%Y-%m-%d %H:%M:%S'): $1"
 }
 
 success() {
-  echo -e "\033[32m Success \033[0m $(date +'%Y-%m-%d %H:%M:%S'): $1"
+	echo -e "\033[32m Success \033[0m $(date +'%Y-%m-%d %H:%M:%S'): $1"
 }
 
 error() {
-  echo -e "\033[31m Error \033[0m $(date +'%Y-%m-%d %H:%M:%S'): $1"
+	echo -e "\033[31m Error \033[0m $(date +'%Y-%m-%d %H:%M:%S'): $1"
 }
 
 warn() {
-  echo -e "\033[33m Warn \033[0m $(date +'%Y-%m-%d %H:%M:%S'): $1"
+	echo -e "\033[33m Warn \033[0m $(date +'%Y-%m-%d %H:%M:%S'): $1"
 }
-
