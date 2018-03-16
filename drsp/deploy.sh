@@ -5,8 +5,10 @@
 # email: xiaomao361@163.com
 # func: deploy the hole project
 
-HOME=
+HOME=/home/pi
 BIN=$HOME/dcm4che/bin
-scp=pi@192.168.1.138:11112
+SCP=pi@192.168.1.138:11112
+LOG=$HOME/receive.log
 
-$BIN/storescp -b $scp --directory $HOME/dicom
+nohup $BIN/storescp -b $SCP --directory $HOME/dicom >> $LOG &
+nohup $HOME/drsp/storescu.sh &

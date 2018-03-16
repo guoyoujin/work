@@ -6,14 +6,14 @@
 # modify: 2018-03-15
 #         modify to check a path dicom and send
 
-HOME=
-LOG=$HOME/drsp/drsp.log
+HOME=/home/pi
+LOG=$HOME/drsp.log
 CHECK=$HOME/dicom
 TMP=$HOME/tmp
 BIN=$HOME/dcm4che/bin
 server_path=center@10.8.0.1:11112
 
-source ./shellog.sh
+source $HOME/drsp/shellog.sh
 
 receive_check() {
 	file_size=$(cd $CHECK && du | sed -n '$p' | awk '{print $1}')
