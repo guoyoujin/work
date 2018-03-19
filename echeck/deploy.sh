@@ -53,7 +53,7 @@ if [ $? -eq 0 ]; then
 
 	$script_home/app_scale.sh app # scale the app ports to the nginx conf
 
-	compose cond
+	compose crond
 	compose base
 
 else
