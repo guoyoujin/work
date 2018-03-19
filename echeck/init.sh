@@ -5,4 +5,4 @@
 # author: zhouwei
 
 source /etc/profile.d/rvm.sh
-cd /home&&bundle install
+cd /home && bundle install
