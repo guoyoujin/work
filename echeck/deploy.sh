@@ -41,7 +41,7 @@ compose() {
 # docker-compose build and up
 docker-compose build
 if [ $? -eq 0 ]; then
-	$script_home/app_scale.sh base # scale the base port to the nginx conf
+	$script_home/app_scale.sh crond # scale the base port to the nginx conf
 
 	# restart app
 	docker-compose scale app=1

@@ -15,9 +15,9 @@ etcd_key="echeck"
 curl --cacert $cacert --cert $cert --key $key $etcd_url/v2/keys/$etcd_key?recursive=true -XDELETE
 
 app_type=$1
-if [ $app_type=="base" ]; then
-	curl --cacert $cacert --cert $cert --key $key $etcd_url/v2/keys/$etcd_key/echeck_base -XPUT -d value="8000"
-elif [ $app_type=="app" ]; then
+if [ "$app_type" = "crond" ]; then
+	curl --cacert $cacert --cert $cert --key $key $etcd_url/v2/keys/$etcd_key/echeck_crond -XPUT -d value="8000"
+elif [ "$app_type" = "app" ]; then
 	# loop the container name and port
 	docker ps -a | grep echeck_app_* | while read line; do
 		app_key=$(echo $line | awk '{print $NF}')
