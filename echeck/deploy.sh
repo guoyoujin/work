@@ -3,6 +3,7 @@
 # date: 2018-01-03
 # author: zhouwei
 # email: xiaoamo361@163.com
+# modify: 2018-03-19
 
 script_home=/home/tongxin/echeck
 
