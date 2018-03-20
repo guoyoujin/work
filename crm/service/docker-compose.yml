@@ -1,0 +1,17 @@
+version: '2'
+services:
+
+  app:
+    restart: unless-stopped
+    build: ./
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '8002:9292'
+    networks:
+      - backend
+      
+networks:
+  backend:
+    external:
+      name: backend
