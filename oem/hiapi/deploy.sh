@@ -4,9 +4,9 @@
 # author: zhouwei
 # email: xiaoamo361@163.com
 # modify: 2018-03-19:
-#         2018-03-20: copy from echeck use for diagnose
+#         2018-03-20: copy from echeck use for hiapi
 
-script_home=/home/tongxin/oem/diagnose
+script_home=/home/tongxin/oem/hiapi
 
 set -e
 
@@ -21,7 +21,7 @@ fi
 docker network ls | grep backend || docker network create backend
 
 # pull code
-su - tongxin -c "cd $script_home/txdiagnose && git pull origin master"
+su - tongxin -c "cd $script_home/txhiapi && git pull origin master"
 if [ $? -ne 0 ]; then
 	echo "code pull error"
 	exit 1

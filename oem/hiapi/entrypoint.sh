@@ -29,4 +29,4 @@ if [ $1 ]; then
 	bundle exec whenever --update-crontab -s environment=production
 fi
 
-puma -e production
+bundle exec puma -e production

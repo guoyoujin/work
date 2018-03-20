@@ -16,7 +16,7 @@ if [ $(id -u) -ne 0 ]; then
 fi
 
 # checkout the last worked version code
-su - tongxin -c "cd $script_home/txmanager&&git reset --hard HEAD^"
+su - tongxin -c "cd $script_home/txmanager && git reset --hard HEAD^"
 if [ $? -ne 0 ]; then
 	echo "code roll last version error"
 	exit 1
