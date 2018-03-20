@@ -2,24 +2,24 @@ version: '2'
 services:
   base:
     restart: unless-stopped
-    build: ./diagnose
+    build: ./
     environment:
       TZ: Asia/Shanghai
-    ports:
-      - '8001:3000'
     networks:
       - backend
 
   app:
     restart: unless-stopped
-    extends: diagnose_base
+    extends: base
     ports:
       - '3000'
 
   crond:
     restart: unless-stopped
-    extends: diagnose_base
-    command: enterpoint.sh crond
+    extends: base
+    ports:
+      - '8001:3000'
+    command: entrypoint.sh crond
 
 networks:
   backend:
