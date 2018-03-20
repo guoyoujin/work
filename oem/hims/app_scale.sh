@@ -17,7 +17,7 @@ curl --cacert $cacert --cert $cert --key $key $etcd_url/v2/keys/$etcd_key?recurs
 
 app_type=$1
 if [ "$app_type" = "crond" ]; then
-	curl --cacert $cacert --cert $cert --key $key $etcd_url/v2/keys/$etcd_key/hims_crond -XPUT -d value="8004"
+	curl --cacert $cacert --cert $cert --key $key $etcd_url/v2/keys/$etcd_key/hims_crond -XPUT -d value="8002"
 elif [ "$app_type" = "app" ]; then
 	# loop the container name and port
 	docker ps -a | grep hims_app_* | while read line; do
