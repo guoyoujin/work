@@ -5,8 +5,6 @@ services:
     build: .
     environment:
       TZ: Asia/Shanghai
-    ports:
-      - '3000'
     networks:
       - backend
 
