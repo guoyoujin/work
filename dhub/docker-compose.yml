@@ -1,0 +1,22 @@
+version: '2'
+services:
+  dicom:
+    restart: unless-stopped
+    build: ./txRDTDicom
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      - backend
+
+  gearman:
+    restart: unless-stopped
+    build: ./txRDTGearman
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: backend
