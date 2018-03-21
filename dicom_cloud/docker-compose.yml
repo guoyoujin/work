@@ -1,0 +1,37 @@
+version: '2'
+services:
+
+  api:
+    restart: unless-stopped
+    build: ./api
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '4567'
+    networks:
+      - backend
+
+  ecs:
+    restart: unless-stopped
+    build: ./ecs
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '4567'
+    networks:
+      - backend
+
+  rds:
+    restart: unless-stopped
+    build: ./rds
+    environment:
+      TZ: Asia/Shanghai
+    links:
+      - ecs
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: backend
