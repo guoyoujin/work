@@ -4,15 +4,10 @@
 # author: zhouwei
 # email: xiaoamo361@163.com
 # modify: 2018-03-07: change for hot deploy
+# 	      2018-03-21: modify the script for deploy all the project
 
 script_home=/home/tongxin/oem
 project_name=$1
-
-# check input
-if [[ "$1" == "" ]]; then
-	echo "need input the project name { diagnose|hims|hiapi|manager|meeting}"
-	exit 1
-fi
 
 # check the user
 if [ $(id -u) -ne 0 ]; then
@@ -21,48 +16,30 @@ if [ $(id -u) -ne 0 ]; then
 	exit 1
 fi
 
-# pull code
-su - tongxin -c "cd $script_home/$project_name/tx${project_name}&&git pull origin master"
-if [ $? -ne 0 ]; then
-	echo "code pull error"
+run_deploy() {
+	project=$1
+	cd $script_home/$project && ./deploy.sh
+}
+
+case $1 in
+diagnose)
+	run_deploy diagnose
+	;;
+hims)
+	run_deploy hims
+	;;
+hiapi)
+	run_deploy hiapi
+	;;
+manager)
+	run_deploy manager
+	;;
+meeting)
+	run_deploy meeting
+	;;
+
+*)
+	echo "need input the project name { diagnose|hims|hiapi|manager|meeting}"
 	exit 1
-fi
-
-# check the home path
-if [ $(pwd)!=="$script" ]; then
-	cd $script_home
-fi
-
-# build the new version images
-docker-compose build ${project_name}_base
-docker-compose build ${project_name}_crond
-docker-compose build ${project_name}
-
-if [ $? -eq 0 ]; then
-	# change the nginx conf file to base ports for servers
-	$script_home/app_scale.sh "base" ${project_name}
-
-	# deploy the new version project
-	docker-compose scale ${project_name}=1
-	docker-compose stop ${project_name}
-	docker-compose rm -f ${project_name}
-	docker-compose up -d ${project_name}
-	docker-compose scale ${project_name}=3
-
-	# test the project start status and if something wrong exit the script
-	project_base_port=$(docker ps -a | grep ${project_name} | grep base | awk '{print $(NF-1)}' | cut -d ':' -f 2 | cut -d '-' -f 1)
-	
-	# 这步操作这里目前有问题，不能通过curl来判断项目是否启动完成 
-	curl localhost:${project_base_port} && $script_home/app_scale.sh "app" ${project_name} || echo "project curl error" && exit 1
-
-	# run the new version base and crond
-	docker-compose stop ${project_name}_crond
-	docker-compose rm -f ${project_name}_crond
-	docker-compose stop ${project_name}_base
-	docker-compose rm -f ${project_name}_base
-	docker-compose up -d ${project_name}_base
-	docker-compose up -d ${project_name}_crond
-
-else
-	echo "docker-compose build base error"
-fi
+	;;
+esac
