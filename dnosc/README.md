@@ -7,4 +7,8 @@ cd into you path
 
 `git clone git@git.tongxinyiliao.com:zhouw/dnosc.git`
 
-`cd dnosc&&./deploy.sh`
+`cd dnosc`
+
+`sudo docker-compose build`
+
+`sudo docker-compose up -d`

@@ -11,7 +11,8 @@ class NodesMySQL(object):
         passwd = app.config['MYSQL_PASSWD']
         db = app.config['MYSQL_DB']
 
-        self.conn = MySQLdb.connect(host=host, user=user, passwd=passwd, db=db, charset="utf8")
+        self.conn = MySQLdb.connect(
+            host=host, user=user, passwd=passwd, db=db, charset="utf8")
 
     def node_query(self, sql):
         cursor = self.conn.cursor()

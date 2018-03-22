@@ -1,0 +1,19 @@
+version: '2'
+services:
+
+  app:
+    restart: unless-stopped
+    build: ./
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '8000:80'
+    volumes:
+      - '/etc/openvpn/openvpn-status.log:/etc/openvpn/openvpn-status.log'
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: backend
