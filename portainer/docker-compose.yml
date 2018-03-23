@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+
+  app:
+    image: portainer/portainer
+    restart: always
+    ports:
+      - 11112:11112
+      - 2375:2375
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/portainer:/data
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: backend
