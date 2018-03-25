@@ -2,7 +2,7 @@ version: '2'
 services:
   base:
     restart: unless-stopped
-    build: ./hims
+    build: ./
     environment:
       TZ: Asia/Shanghai
     networks:
