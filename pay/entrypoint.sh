@@ -1,10 +1,10 @@
 #! /bin/bash
 
-# fuc: source /etc/profile.d/rvm.sh && start app
+# fuc: start app
 # author: zhouwei
+# date: 2016-11-17
 # email: xiaomao361@163.com
-# date: 2016-06-30
-# modify: 2017-12-19 change the hole file for docker-compose delpoy
+# modify: 2018-03-25: change the script for new deploy
 
 set -e
 
@@ -18,13 +18,10 @@ fi
 
 rsyslogd
 
+crond
+
 cd /home
-bundle install
 RAILS_ENV=production bundle exec rake db:migrate
-
-if [ $1 ]; then
-	bundle exec whenever --update-crontab production
-fi
-
+bundle exec whenever --update-crontab -s environment=production
 RAILS_ENV=production bundle exec rake assets:precompile
-puma -e production -p 3000
+puma -e production

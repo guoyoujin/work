@@ -23,7 +23,7 @@ services:
     extends: base
     environment:
       TZ: Asia/Shanghai
-    command: enterpoint.sh crond
+    command: entrypoint.sh crond
     ports:
       - '8000:3000'
     networks:

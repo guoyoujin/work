@@ -1,0 +1,17 @@
+version: '2'
+services:
+
+  app:
+    restart: unless-stopped
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: backend

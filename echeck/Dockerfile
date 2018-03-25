@@ -9,8 +9,8 @@ FROM txpatient
 WORKDIR /home
 
 COPY txpatient/ /home
-ADD enterpoint.sh /usr/bin/enterpoint.sh
+ADD entrypoint.sh /usr/bin/entrypoint.sh
 ADD init.sh /home/init.sh
 
 RUN /home/init.sh
-CMD ["enterpoint.sh"]
+CMD ["entrypoint.sh"]

@@ -6,7 +6,7 @@ services:
     image: portainer/portainer
     restart: always
     ports:
-      - 11112:11112
+      - 9000:9000
       - 2375:2375
     environment:
       TZ: Asia/Shanghai
