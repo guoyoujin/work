@@ -1,15 +1,12 @@
-# txpatient production rail images
+# txdiag production rail images
 #
-# incloud: ruby2.2.2, rails4.2.1 imagemagic nodejs6.* lts git 
+# incloud: ruby2.2.5, rails4.2.5 imagemagic nodejs6-lts git 
 #
-# version:                 2.2
+# version:                 3.0
 
 FROM txdiag
 
 WORKDIR /home
-
-RUN rm -rf /etc/pam.d/crond
-ADD crond /etc/pam.d/crond
 
 COPY txdiag/ /home
 ADD entrypoint.sh /usr/bin/entrypoint.sh
