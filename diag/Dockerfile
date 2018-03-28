@@ -11,7 +11,7 @@ WORKDIR /home
 RUN rm -rf /etc/pam.d/crond
 ADD crond /etc/pam.d/crond
 
-COPY txpatient/ /home
+COPY txdiag/ /home
 ADD entrypoint.sh /usr/bin/entrypoint.sh
 ADD init.sh /home/init.sh
 
