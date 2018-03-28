@@ -1,0 +1,35 @@
+version: '2'
+services:
+  base:
+    restart: unless-stopped
+    build: .
+    environment:
+      TZ: Asia/Shanghai
+    networks:
+      - backend
+
+  app:
+    restart: unless-stopped
+    extends: base
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '9292'
+    networks:
+      - backend
+
+  crond:
+    restart: unless-stopped
+    extends: base
+    environment:
+      TZ: Asia/Shanghai
+    command: entrypoint.sh crond
+    ports:
+      - '8000:9292'
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: backend

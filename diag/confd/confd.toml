@@ -1,0 +1,10 @@
+backend = "etcd"
+client_cakeys = "/etc/confd/ssl/etcd-root-ca.pem"
+client_cert = "/etc/confd/ssl/etcd.pem"
+client_key = "/etc/confd/ssl/etcd-key.pem"
+confdir = "/etc/confd"
+log-level = "info"
+interval = 10
+nodes = [
+  "https://47.93.243.215:2379",
+]

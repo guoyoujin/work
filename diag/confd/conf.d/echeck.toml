@@ -1,0 +1,9 @@
+[template]
+src = "diag.tmpl"
+dest = "/system/tengine/conf/docker/diag.conf"
+mode = "0644"
+keys = [
+  "/diag"
+]
+check_cmd = "/system/tengine/sbin/nginx -t -c /system/tengine/conf/nginx.conf"
+reload_cmd = "/system/tengine/sbin/nginx -s reload"
