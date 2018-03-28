@@ -48,7 +48,7 @@ if [ $? -eq 0 ]; then
 	compose app
 	docker-compose scale app=3
 
-	echo "waiting for 5min fo echeck app start ready"
+	echo "waiting for 5min fo diag app start ready"
 	sleep 300
 
 	$script_home/app_scale.sh app # scale the app ports to the nginx conf

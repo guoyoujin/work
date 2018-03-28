@@ -16,10 +16,10 @@ curl --cacert $cacert --cert $cert --key $key $etcd_url/v2/keys/$etcd_key?recurs
 
 app_type=$1
 if [ "$app_type" = "crond" ]; then
-	curl --cacert $cacert --cert $cert --key $key $etcd_url/v2/keys/$etcd_key/echeck_crond -XPUT -d value="8000"
+	curl --cacert $cacert --cert $cert --key $key $etcd_url/v2/keys/$etcd_key/diag_crond -XPUT -d value="8000"
 elif [ "$app_type" = "app" ]; then
 	# loop the container name and port
-	docker ps -a | grep echeck_app_* | while read line; do
+	docker ps -a | grep diag_app_* | while read line; do
 		app_key=$(echo $line | awk '{print $NF}')
 		app_value=$(echo $line | awk '{print $(NF-1)}' | cut -d ':' -f 2 | cut -d '-' -f 1)
 		curl --cacert $cacert --cert $cert --key $key $etcd_url/v2/keys/$etcd_key/$app_key -XPUT -d value="$app_value"
