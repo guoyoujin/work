@@ -1,5 +1,5 @@
 #!/bin/bash
-# func: pull code and run diagnose container with 3 app
+# func: pull code and run meeting container with 3 app
 # date: 2018-01-03
 # author: zhouwei
 # email: xiaoamo361@163.com
