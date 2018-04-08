@@ -4,6 +4,7 @@
 # author: zhouwei
 # email: xiaoamo361@163.com
 # modify: 2018-03-19
+#         2018-04-08: add the git version check, to make the deploy must pull the new code already.
 
 script_home=/home/tongxin/echeck
 
@@ -20,9 +21,19 @@ fi
 docker network ls | grep backend || docker network create backend
 
 # pull code
-su - tongxin -c "cd $script_home/txpatient&&git pull origin master"
+old_version_num=$(su - tongxin -c "cd $script_home/txpatient && git rev-parse HEAD")
+echo "old_version_num: $old_version_num"
+su - tongxin -c "cd $script_home/txpatient && git pull origin master"
 if [ $? -ne 0 ]; then
 	echo "code pull error"
+	exit 1
+fi
+
+# check for git version number, if the number is not change, then exit
+new_version_num=$(su - tongxin -c "cd $script_home/txpatient && git rev-parse HEAD")
+echo "new_version_num: $new_version_num"
+if [ "$old_version_num"=="$new_version_num" ]; then
+	echo "git version number is not change, exit"
 	exit 1
 fi
 
