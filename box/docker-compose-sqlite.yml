@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  box:
+    build: ./
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - 11112:11112
+    networks:
+      - backend
+networks:
+  backend:
+    external:
+      name: backend
