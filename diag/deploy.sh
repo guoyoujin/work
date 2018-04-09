@@ -22,7 +22,7 @@ docker network ls | grep backend || docker network create backend
 
 # pull code
 old_version_num=$(su - tongxin -c "cd $script_home/txdiag && git rev-parse HEAD")
-su - tongxin -c "cd $script_home/txdiag&&git pull origin master"
+su - tongxin -c "cd $script_home/txdiag && git pull origin master"
 if [ $? -ne 0 ]; then
 	echo "code pull error"
 	exit 1
