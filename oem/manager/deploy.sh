@@ -5,6 +5,7 @@
 # email: xiaoamo361@163.com
 # modify: 2018-03-19:
 #         2018-03-20: copy from echeck use for manager
+#         2018-04-09: add the git version check, to make the deploy must pull the new code already.
 
 script_home=/home/tongxin/oem/manager
 
@@ -21,9 +22,18 @@ fi
 docker network ls | grep backend || docker network create backend
 
 # pull code
+old_version_num=$(su - tongxin -c "cd $script_home/txmanager && git rev-parse HEAD")
 su - tongxin -c "cd $script_home/txmanager && git pull origin master"
 if [ $? -ne 0 ]; then
 	echo "code pull error"
+	exit 1
+fi
+
+# check for git version number, if the number is not change, then exit
+new_version_num=$(su - tongxin -c "cd $script_home/txmanager && git rev-parse HEAD")
+echo "new_version_num: $new_version_num"
+if [ "$old_version_num"=="$new_version_num" ]; then
+	echo "git version number is not change, exit"
 	exit 1
 fi
 
