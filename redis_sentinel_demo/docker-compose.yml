@@ -1,0 +1,89 @@
+version: '3'
+
+services:
+  redis1:
+    image: redis:alpine
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - 6379:6379
+    volumes:
+      - ./conf/redis1.conf:/etc/redis1.conf
+    command: redis-server /etc/redis1.conf
+    networks:
+      - redisnet
+
+  redis2:
+    image: redis:alpine
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '6379'
+    volumes:
+      - ./conf/redis2.conf:/etc/redis2.conf
+    command: redis-server /etc/redis2.conf
+    networks:
+      - redisnet
+
+  redis3:
+    image: redis:alpine
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '6379'
+    volumes:
+      - ./conf/redis3.conf:/etc/redis3.conf
+    command: redis-server /etc/redis3.conf
+    networks:
+      - redisnet
+  
+  sentinel1:
+    image: redis:alpine
+    restart: unless-stopped
+    depends_on: 
+      - redis1
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '26379'
+    volumes:
+      - ./conf/sentinel1.conf:/etc/sentinel1.conf
+    command: redis-sentinel /etc/sentinel1.conf
+    networks:
+      - redisnet
+
+  sentinel2:
+    image: redis:alpine
+    restart: unless-stopped
+    depends_on: 
+      - redis1
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '26379'
+    volumes:
+      - ./conf/sentinel2.conf:/etc/sentinel2.conf
+    command: redis-sentinel /etc/sentinel2.conf
+    networks:
+      - redisnet
+  
+  sentinel3:
+    image: redis:alpine
+    restart: unless-stopped
+    depends_on: 
+      - redis1
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '26379'
+    volumes:
+      - ./conf/sentinel3.conf:/etc/sentinel3.conf
+    command: redis-sentinel /etc/sentinel3.conf
+    networks:
+      - redisnet
+
+networks:
+  redisnet:
